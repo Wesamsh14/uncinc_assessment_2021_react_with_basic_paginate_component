@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 import ReactLoading from 'react-loading';
-import Casts from './components/Casts';
+import Cast from './components/Cast';
 
 export default function App() {
   const styles = {
@@ -11,26 +11,35 @@ export default function App() {
       width: 'fit-content',
     },
   };
-  const [casts, setCasts] = useState([]);
+  const [cast, setCast] = useState([]);
+  const [castLength, setCastLength] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [castPerPage] = useState(6);
   useEffect(() => {
-    const getCasts = async () => {
-      const castsData = await axios.get('https://thronesapi.com/api/v2/Characters');
-      setCasts(castsData.data);
+    const getCast = async () => {
+      const castData = await axios.get('https://thronesapi.com/api/v2/Characters');
+      setCast(castData.data);
+      setCastLength(cast.length);
     };
-    getCasts();
-  }, []);
+    getCast();
+  }, [cast]);
   const indexOfLastCast = currentPage * castPerPage;
   const indexOfFirstCast = indexOfLastCast - castPerPage;
-  const displayCasts = casts.slice(indexOfFirstCast, indexOfLastCast);
+  const displayCast = cast.slice(indexOfFirstCast, indexOfLastCast);
   const getPaginate = (pageNumber) => setCurrentPage(pageNumber);
   return (
     <div className="App">
-      <h1>Game of thrones casts</h1>
-      {casts && casts.length > 0
+      <h1>Game of thrones cast</h1>
+      {cast && cast.length > 0
         // eslint-disable-next-line max-len
-        ? <Casts displayCasts={displayCasts} casts={casts} castPerPage={castPerPage} getPaginate={getPaginate} />
+        ? (
+          <Cast
+            displayCast={displayCast}
+            castLength={castLength}
+            castPerPage={castPerPage}
+            getPaginate={getPaginate}
+          />
+        )
         : (
           <div style={styles.loading}>
             <ReactLoading type="spin" color="white" />

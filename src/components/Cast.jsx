@@ -4,7 +4,7 @@ import Pagination from './Pagination';
 import CastCard from './CastCard';
 
 function Casts({
-  displayCasts, casts, castPerPage, getPaginate,
+  displayCast, castLength, castPerPage, getPaginate,
 }) {
   const styles = {
     castsRoot: {
@@ -19,19 +19,18 @@ function Casts({
   return (
     <div>
       <div style={styles.castsRoot}>
-        {displayCasts && displayCasts.map((cast) => (
+        {displayCast && displayCast.map((cast) => (
           <CastCard key={cast.id} cast={cast} />
         ))}
       </div>
-      <Pagination castsPerPage={castPerPage} totalCasts={casts.length} getPaginate={getPaginate} />
+      <Pagination castsPerPage={castPerPage} totalCasts={castLength} getPaginate={getPaginate} />
     </div>
   );
 }
 Casts.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  displayCasts: PropTypes.array.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  casts: PropTypes.array.isRequired,
+  displayCast: PropTypes.array.isRequired,
+  castLength: PropTypes.number.isRequired,
   castPerPage: PropTypes.number.isRequired,
   getPaginate: PropTypes.func.isRequired,
 };
